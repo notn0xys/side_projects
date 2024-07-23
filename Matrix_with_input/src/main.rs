@@ -64,8 +64,6 @@ fn main() {
         print_matrix(matrix1.clone());
         print_matrix(matrix2.clone());
         let answer = matrix_mult(matrix1, matrix2);
-        for i in &answer{
-            println!("{:?}",i)
-        }
+        print_matrix(answer);
     }
 }
