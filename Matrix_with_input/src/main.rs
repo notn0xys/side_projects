@@ -1,8 +1,10 @@
 use std::io;
 fn print_matrix(x:Vec<Vec<i32>>){
+    println!("");
     for i in &x{
         println!("{:?}", i)
     }
+    println!("");
 }
 fn get_matrix() -> Vec<Vec<i32>>{
     let mut input = String::new();
