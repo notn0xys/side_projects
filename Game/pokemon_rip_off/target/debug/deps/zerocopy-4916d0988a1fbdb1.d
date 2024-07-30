@@ -1,0 +1,10 @@
+C:\Users\user\Documents\GitHub\new\Game\pokemon_rip_off\target\debug\deps\libzerocopy-4916d0988a1fbdb1.rmeta: C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\lib.rs C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\byteorder.rs C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\derive_util.rs C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\post_monomorphization_compile_fail_tests.rs
+
+C:\Users\user\Documents\GitHub\new\Game\pokemon_rip_off\target\debug\deps\libzerocopy-4916d0988a1fbdb1.rlib: C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\lib.rs C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\byteorder.rs C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\derive_util.rs C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\post_monomorphization_compile_fail_tests.rs
+
+C:\Users\user\Documents\GitHub\new\Game\pokemon_rip_off\target\debug\deps\zerocopy-4916d0988a1fbdb1.d: C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\lib.rs C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\byteorder.rs C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\derive_util.rs C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\post_monomorphization_compile_fail_tests.rs
+
+C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\lib.rs:
+C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\byteorder.rs:
+C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\derive_util.rs:
+C:\Users\user\.cargo\registry\src\index.crates.io-6f17d22bba15001f\zerocopy-0.6.6\src\post_monomorphization_compile_fail_tests.rs:

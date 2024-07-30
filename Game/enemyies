@@ -1,0 +1,37 @@
+    // let mut enemy1:Vec<enemy> = vec![
+    //     enemy{
+    //         Name: "Rat".to_string(),
+    //         HP: 10,
+    //         Stamina: 20,
+    //         Power: 2,
+    //         new_hp: 10
+    //     },
+    //     enemy{
+    //         Name: "Wolf".to_string(),
+    //         HP: 20,
+    //         Stamina: 20,
+    //         Power: 10,
+    //         new_hp: 20
+    //     },
+    //     enemy{
+    //         Name: "Boar".to_string(),
+    //         HP: 30,
+    //         Stamina: 40,
+    //         Power: 20,
+    //         new_hp: 30
+    //     },
+    //     enemy{
+    //         Name: "Tiger".to_string(),
+    //         HP: 40,
+    //         Stamina: 50,
+    //         Power: 30,
+    //         new_hp: 40
+    //     },
+    //     enemy{
+    //         Name: "Dragon".to_string(),
+    //         HP: 60,
+    //         Stamina: 60,
+    //         Power: 40,
+    //         new_hp: 60
+    //     },        
+    // ];
