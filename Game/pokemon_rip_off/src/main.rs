@@ -1,37 +1,37 @@
 use rand::Rng;
-use std::io::{self, Error};
+use std::io;
 
 const enemy1:[enemy;5] = [
     enemy{
-        Name: "Rat".to_string(),
+        Name: "Rat",
         HP: 10,
         Stamina: 20,
         Power: 2,
         new_hp: 10
     },
     enemy{
-        Name: "Wolf".to_string(),
+        Name: "Wolf",
         HP: 20,
         Stamina: 20,
         Power: 10,
         new_hp: 20
     },
     enemy{
-        Name: "Boar".to_string(),
+        Name: "Boar",
         HP: 30,
         Stamina: 40,
         Power: 20,
         new_hp: 30
     },
     enemy{
-        Name: "Tiger".to_string(),
+        Name: "Tiger",
         HP: 40,
         Stamina: 50,
         Power: 30,
         new_hp: 40
     },
     enemy{
-        Name: String::from("Dragon"),
+        Name: "Dragon",
         HP: 60,
         Stamina: 60,
         Power: 40,
@@ -46,6 +46,8 @@ const enemy1:[enemy;5] = [
     South,
     West   
     }
+    #[derive(Debug)]
+
 struct Player{
     HP: i32,
     Stamina: i32,
@@ -53,8 +55,10 @@ struct Player{
     Gold: i32,
     new_hp: i32
 }
+#[derive(Debug)]
 struct enemy{
-    Name: String,
+    
+    Name: &str,
     HP: i32,
     Stamina: i32,
     Power: i32,
@@ -79,7 +83,7 @@ enum Encounter {
 }
 
 impl Player {
-    fn fight_enemy(&mut self, x:Enemies, ){
+    fn fight_enemy(&mut self, x:enemy, ){
         let mut input = String::new();
         println!("{:?}", self);
         println!("{:?}", x);
@@ -92,6 +96,7 @@ impl Player {
                 0
             }
         };
+
 
     }
     fn new() -> Self{
@@ -152,15 +157,16 @@ impl Player {
                 self.Stamina -= 1;
                 let mut rng = rand::thread_rng();
                 let n:i32 = rng.gen_range(0..100);
-                let result = match n {
-                    0..=44 => self.fight_enemy(),
-                    17..=26 => ,
-                    27..=39 => ,
-                    40..=54 => ,
-                    55..=69 => ,
-                    70..=74 => ,
-                    75..=99 => ,
+                match n {
+                    0..=44 => self.fight_enemy(enemy1[0]),
+                    45..=69 => self.fight_enemy(enemy1[1]),
+                    70..=84 => self.fight_enemy(enemy1[2]),
+                    85..=94 => self.fight_enemy(enemy1[3]),
+                    95..=100 => self.fight_enemy(enemy1[4]),
+
+                    _ => println!("hi");
                 };
+                
                 
             }
         }
@@ -173,48 +179,49 @@ impl Player {
 fn main() {
     let mut player = Player::new();
 
-    let mut enemy1:Vec<enemy> = vec![
-        enemy{
-            Name: "Rat".to_string(),
-            HP: 10,
-            Stamina: 20,
-            Power: 2,
-            new_hp: 10
-        },
-        enemy{
-            Name: "Wolf".to_string(),
-            HP: 20,
-            Stamina: 20,
-            Power: 10,
-            new_hp: 20
-        },
-        enemy{
-            Name: "Boar".to_string(),
-            HP: 30,
-            Stamina: 40,
-            Power: 20,
-            new_hp: 30
-        },
-        enemy{
-            Name: "Tiger".to_string(),
-            HP: 40,
-            Stamina: 50,
-            Power: 30,
-            new_hp: 40
-        },
-        enemy{
-            Name: "Dragon".to_string(),
-            HP: 60,
-            Stamina: 60,
-            Power: 40,
-            new_hp: 60
-        },        
-    ];
+    // let mut enemy1:Vec<enemy> = vec![
+    //     enemy{
+    //         Name: "Rat".to_string(),
+    //         HP: 10,
+    //         Stamina: 20,
+    //         Power: 2,
+    //         new_hp: 10
+    //     },
+    //     enemy{
+    //         Name: "Wolf".to_string(),
+    //         HP: 20,
+    //         Stamina: 20,
+    //         Power: 10,
+    //         new_hp: 20
+    //     },
+    //     enemy{
+    //         Name: "Boar".to_string(),
+    //         HP: 30,
+    //         Stamina: 40,
+    //         Power: 20,
+    //         new_hp: 30
+    //     },
+    //     enemy{
+    //         Name: "Tiger".to_string(),
+    //         HP: 40,
+    //         Stamina: 50,
+    //         Power: 30,
+    //         new_hp: 40
+    //     },
+    //     enemy{
+    //         Name: "Dragon".to_string(),
+    //         HP: 60,
+    //         Stamina: 60,
+    //         Power: 40,
+    //         new_hp: 60
+    //     },        
+    // ];
     
        
     loop {
         let x = player.get_encounter();
-        let result = player.Encounter(x);
+        player.Encounter(x);
+
     }
 
 }
