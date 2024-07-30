@@ -41,15 +41,13 @@ const enemy1:[enemy;5] = [
     ];       
 
 
-    enum Move {
+enum Move {
     North,
     East,
     South,
     West   
-    }
-    #[derive(Debug)]
-
-
+}
+#[derive(Debug)]
 struct Player{
     HP: i32,
     Stamina: i32,
