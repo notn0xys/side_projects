@@ -1,16 +1,16 @@
 use rand::Rng;
 use std::io;
 
-const enemy1:[enemy;5] = [
+const ENEMY1:[enemy;5] = [
     enemy{
-        Name: "Rat",
+        name: "Rat",
         HP: 10,
         Stamina: 20,
         Power: 2,
         ID: 0
     },
     enemy{
-        Name: "Wolf",
+        name: "Wolf",
         HP: 20,
         Stamina: 20,
         Power: 10,
@@ -18,21 +18,21 @@ const enemy1:[enemy;5] = [
 
     },
     enemy{
-        Name: "Boar",
+        name: "Boar",
         HP: 30,
         Stamina: 40,
         Power: 20,
         ID: 2
     },
     enemy{
-        Name: "Tiger",
+        name: "Tiger",
         HP: 40,
         Stamina: 50,
         Power: 30,
         ID: 3
     },
     enemy{
-        Name: "Dragon",
+        name: "Dragon",
         HP: 60,
         Stamina: 60,
         Power: 40,
@@ -57,7 +57,7 @@ struct Player{
 #[derive(Debug, Clone)]
 struct enemy<'a> {
     
-    Name: &'a str,
+    name: &'a str,
     HP: i32,
     Stamina: i32,
     Power: i32,
@@ -90,10 +90,10 @@ impl Player {
         loop {
             println!("{:?}", self);
             println!("{:?}", x);
-            if self.HP < 0 {
+            if self.HP <= 0 {
                 println!("You've died");
                 break;
-            } else if x.HP < 0 {
+            } else if x.HP <= 0 {
                 match x.ID {
                     0 => {
                         println!("You've killed Rat");
@@ -194,8 +194,8 @@ impl Player {
             40..=54 => Encounter::Water,
             55..=69 => Encounter::Herb,
             70..=74 => Encounter::Iron_ore,
-            75..=99 => Encounter::Enemy,
-            _ => Encounter:: Bush
+            _ => Encounter::Enemy
+
         };
         result
         
@@ -203,11 +203,12 @@ impl Player {
 
     }
 
-    fn Encounter(&mut self, data:Encounter){
+    fn encounter(&mut self, data:Encounter){
         match data {
             Encounter::Bush => {
                 println!("Found Bush Stamina -2");
                 self.Stamina -= 2;
+                
             }
             Encounter::Herb =>{
                 println!("Found Herb Power + 1");
@@ -239,11 +240,11 @@ impl Player {
                 let mut rng = rand::thread_rng();
                 let n:i32 = rng.gen_range(0..100);
                 match n {
-                    0..=44 => self.fight_enemy(enemy1[0].clone()),
-                    45..=69 => self.fight_enemy(enemy1[1].clone()),
-                    70..=84 => self.fight_enemy(enemy1[2].clone()),
-                    85..=94 => self.fight_enemy(enemy1[3].clone()),
-                    95..=100 => self.fight_enemy(enemy1[4].clone()),
+                    0..=44 => self.fight_enemy(ENEMY1[0].clone()),
+                    45..=69 => self.fight_enemy(ENEMY1[1].clone()),
+                    70..=84 => self.fight_enemy(ENEMY1[2].clone()),
+                    85..=94 => self.fight_enemy(ENEMY1[3].clone()),
+                    95..=100 => self.fight_enemy(ENEMY1[4].clone()),
                     _ => println!("Hi"),
                 
                 
@@ -255,7 +256,7 @@ impl Player {
 fn main() {
     let mut player = Player::new();       
     loop {
-        if player.Stamina < 0 || player.Gold > 200{
+        if player.Stamina <= 0 || player.Gold >= 200 || player.HP <= 0 {
             break;
         }
         let mut input = String::new();
@@ -282,9 +283,10 @@ fn main() {
         };
         value.change();
         let x = player.get_encounter();
-        player.Encounter(x);
+        player.encounter(x);
 
     }
+    println!("{:?}" ,player);
     println!("Game finished");
 
 }
