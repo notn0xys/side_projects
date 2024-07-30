@@ -7,7 +7,6 @@ const enemy1:[enemy;5] = [
         HP: 10,
         Stamina: 20,
         Power: 2,
-        new_hp: 10,
         ID: 0
     },
     enemy{
@@ -15,7 +14,6 @@ const enemy1:[enemy;5] = [
         HP: 20,
         Stamina: 20,
         Power: 10,
-        new_hp: 20,
         ID: 1
 
     },
@@ -24,7 +22,6 @@ const enemy1:[enemy;5] = [
         HP: 30,
         Stamina: 40,
         Power: 20,
-        new_hp: 30,
         ID: 2
     },
     enemy{
@@ -32,7 +29,6 @@ const enemy1:[enemy;5] = [
         HP: 40,
         Stamina: 50,
         Power: 30,
-        new_hp: 40,
         ID: 3
     },
     enemy{
@@ -40,7 +36,6 @@ const enemy1:[enemy;5] = [
         HP: 60,
         Stamina: 60,
         Power: 40,
-        new_hp: 60,
         ID: 4
     }, 
     ];       
@@ -60,7 +55,6 @@ struct Player{
     Stamina: i32,
     Power: i32,
     Gold: i32,
-    new_hp: i32
 }
 #[derive(Debug, Clone)]
 struct enemy<'a> {
@@ -69,7 +63,6 @@ struct enemy<'a> {
     HP: i32,
     Stamina: i32,
     Power: i32,
-    new_hp: i32,
     ID: i32
 
 }
@@ -190,7 +183,6 @@ impl Player {
             Stamina: 60,
             Gold: 0,
             Power: 10,
-            new_hp: 0
         }
 
     }
