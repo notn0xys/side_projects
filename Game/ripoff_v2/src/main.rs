@@ -277,7 +277,7 @@ fn main() {
         let x = player.Encounter();
         player.result(x, enemy1.clone());
     }
-
+    println!("{:?}",player);
     println!("Game end");
 
 }
