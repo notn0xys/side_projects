@@ -50,10 +50,10 @@ impl Move {
 impl Player {
     fn new() -> Player{
         Player{
-            HP: 100,
+            HP: 1000,
             Stamina: 60,
-            Power: 10,
-            Gold: 0
+            Power: 100,
+            Gold: 199
         }
     }
     fn fight(&mut self, mut x: Enemy){
@@ -62,6 +62,7 @@ impl Player {
             println!("{:?}", x);
             if self.HP <= 0 {
                 println!("You've died");
+                self.HP = 0;
                 break;
             }
             else if x.HP <= 0 {
@@ -86,9 +87,14 @@ impl Player {
                     self.Gold += 25;
                     break;
                 }
-                _ => {
+                4 => {
                     println!("You've killed Dragon");
                     self.Gold += 50;
+                    break;
+                }
+                _ => {
+                    println!("You've killed secrect last boss");
+                    self.Gold += 99999999;
                     break;
                 }
                }
@@ -240,10 +246,38 @@ fn main() {
             Stamina: 60,
             Power: 40,
             ID: 4
-        },        
+        },
+        Enemy{
+            Name: "Trex".to_string(),
+            HP: 100,
+            Stamina: 70,
+            Power: 50,
+            ID:5
+        }
     ];
     loop {
         if player.Gold >= 200 {
+            let mut input = String::new();
+            println!("Do you wish to fight secrect last boss? ");
+            println!("(1) Yes (2) No");
+            io::stdin().read_line(&mut input).expect("Failed to read");
+            match input.trim().parse() {
+                Ok(1) => {
+                    player.fight(enemy1[5].clone());
+                    
+                },
+                Ok(2) => {
+                    println!("Thanks for playing");
+                },
+                Ok(_) => {
+                    println!("Wrong number");
+                    continue;
+                },
+                Err(_) => {
+                    println!("wrong inout type");
+                    continue;
+                }
+            };
             println!("You've won");
             break;
         }else if player.Stamina <= 0 || player.HP <= 0 {
