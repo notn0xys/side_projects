@@ -16,6 +16,7 @@ struct Player {
     Stamina: i32,
     Power: i32,
     Gold: i32,
+    max_hp: i32
 }
 
 enum Move {
@@ -50,9 +51,10 @@ impl Player {
     fn new() -> Player {
         Player {
             HP: 100,
-            Stamina: 60,
+            Stamina: 1,
             Power: 10,
             Gold: 0,
+            max_hp: 100
         }
     }
     fn fight(&mut self, mut x: Enemy) {
@@ -67,27 +69,27 @@ impl Player {
                 match x.ID {
                     0 => {
                         println!("You've killed Rat");
-                        self.Gold += 5;
+                        self.Gold += 10;
                         break;
                     }
                     1 => {
                         println!("You've killed wolf");
-                        self.Gold += 10;
+                        self.Gold += 20;
                         break;
                     }
                     2 => {
                         println!("You've killed Boar");
-                        self.Gold += 15;
+                        self.Gold += 30;
                         break;
                     }
                     3 => {
                         println!("You've killed tiger");
-                        self.Gold += 25;
+                        self.Gold += 40;
                         break;
                     }
                     4 => {
                         println!("You've killed Dragon");
-                        self.Gold += 50;
+                        self.Gold += 60;
                         break;
                     }
                     _ => {
@@ -118,9 +120,13 @@ impl Player {
                     let enemyrng = rand::thread_rng().gen_range(1..100);
                     if playerrng > x.Stamina {
                         println!("Player Hit");
+                        x.HP -= self.Power;
+                        if x.HP<= 0{
+                            println!("Enemy Killed");
+                            continue;
+                        }
                         if enemyrng > self.Stamina {
                             println!("Enemy Hit");
-                            x.HP -= self.Power;
                             self.HP -= x.Power;
                         } else {
                             println!("Enemy missed");
@@ -137,8 +143,26 @@ impl Player {
                     }
                 }
                 _ => {
-                    println!("Flee you coward");
-                    break;
+                    self.Stamina -=2;
+                    let fleechance = rand::thread_rng().gen_range(1..100);
+                    let fleerate = 90 + self.Stamina - x.Stamina;
+                    if fleechance < fleerate {
+                        println!("You have sucessfully Fled");
+                        break;
+                    }
+                    else {
+                        println!("You have failed to flee");
+                        let enemyhit = rand::thread_rng().gen_range(1..100);
+                        if enemyhit > self.Stamina {
+                            println!("Enemy Hit");
+                            self.HP -= x.Power;
+                            continue;
+                        }
+                        else {
+                            println!("Enemy Missed");
+                            continue;
+                        }
+                    }
                 }
             }
         }
@@ -168,9 +192,14 @@ impl Player {
                 self.Power += 10;
             }
             Encounter::Meat => {
-                println!("Found meat HP + 10");
+                println!("Found meat");
                 self.Stamina -= 1;
-                self.HP += 10;
+                if self.HP >= self.max_hp {
+                    println!("Already at max hp");
+                }
+                else {
+                    self.HP += 10;
+                }
             }
             Encounter::Water => {
                 println!("Found Water Stamina +2");
