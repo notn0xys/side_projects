@@ -1,4 +1,5 @@
-use std::io::{self, Read};
+use core::num;
+use std::io;
 use rand::Rng;
 #[derive(Debug,Clone)]
 
@@ -46,19 +47,101 @@ impl Move {
     }
 }
 
-
-fn get_enemy (x:Vec<Enemy>, y:i32) -> Enemy{
-    match y {
-        0 => x[0].clone(),
-        1 => x[1].clone(),
-        2 => x[2].clone(),
-        3 => x[3].clone(),
-        _ => x[4].clone()
-    }
-}
 impl Player {
-    fn fight(&self, x: Enemy){
+    fn new() -> Player{
+        Player{
+            HP: 100,
+            Stamina: 60,
+            Power: 10,
+            Gold: 0
+        }
+    }
+    fn fight(&mut self, mut x: Enemy){
         loop {
+            println!("{:?}", self);
+            println!("{:?}", x);
+            if self.HP <= 0 {
+                println!("You've died");
+                break;
+            }
+            else if x.HP <= 0 {
+               match x.ID {
+                0 => {
+                    println!("You've killed Rat");
+                    self.Gold += 5;
+                    break;
+                }
+                1 => {
+                    println!("You've killed wolf");
+                    self.Gold += 10;
+                    break;
+                }
+                2 => {
+                    println!("You've killed Boar");
+                    self.Gold += 15;
+                    break;
+                }
+                3 => {
+                    println!("You've killed tiger");
+                    self.Gold += 25;
+                    break;
+                }
+                _ => {
+                    println!("You've killed Dragon");
+                    self.Gold += 50;
+                    break;
+                }
+               }
+                
+            }
+            let mut input = String::new();
+            println!("(1)Fight or (2) Flight");
+            io::stdin().read_line(&mut input).expect("Failed to read");
+            let temp:i32 = match input.trim().parse(){
+                Ok(1) => 1,
+                Ok(2) => 2,
+                Ok(_) => {
+                    println!("Wrong option");
+                    continue;
+                },
+                Err(_) => {
+                    println!("wrong input type");
+                    continue;
+                }
+            };
+            match temp {
+                1 => {
+                    let playerrng = rand::thread_rng().gen_range(1..100);
+                    let enemyrng = rand::thread_rng().gen_range(1..100);
+                    if playerrng > x.Stamina{
+                        println!("Player Hit");
+                        if enemyrng > self.Stamina{
+                            println!("Enemy Hit");
+                            x.HP -= self.Power;
+                            self.HP -= x.Power;
+
+                        }
+                        else {
+                            x.HP -= self.Power;
+                        }
+                    }
+                    else {
+                        println!("Player Missed");
+                        if enemyrng > self.Stamina {
+                            println!("Enemy Hit");
+                            self.HP -= x.Power
+                        }
+                        else {
+                            println!("Enemy Missed");
+                        }
+                    }
+
+                }
+                _ => {
+                    println!("Flee you coward");
+                    break;
+                }
+            }
             
         }
 
@@ -79,23 +162,29 @@ impl Player {
     fn result(&mut self, x:Encounter, y:Vec<Enemy>){
         match x {
             Encounter::Bush => {
+                println!("Found Bush Stamina -1");
                 self.Stamina -=2;
             }
             Encounter::Iron_ore => {
+                println!("Found IronOre Power + 10");
                 self.Stamina -=1;
                 self.Power +=10;
             }
             Encounter::Meat => {
+                println!("Found meat HP + 10");
                 self.Stamina -= 1;
-                self.HP += 5
+                self.HP += 10;
             }
             Encounter::Water => {
+                println!("Found Water Stamina +2");
                 self.Stamina += 1;
             }
             Encounter::Nothing => {
+                println!("Found Nothing");
                 self.Stamina -= 1;
             }
             Encounter::Herb => {
+                println!("Found Herb Power +2");
                 self.Stamina -= 1;
                 self.Power += 2;
             }
@@ -103,11 +192,11 @@ impl Player {
                 self.Stamina -= 1;
                 let n = rand::thread_rng().gen_range(1..100);
                 match n {
-                    1..=45 => self.fight(get_enemy(y,0)),
-                    46..=70 => self.fight(get_enemy(y, 1)),
-                    71..=85 => self.fight(get_enemy(y, 2)),
-                    86..=95 => self.fight(get_enemy(y, 3)),
-                    _ => self.fight(get_enemy(y, 4))
+                    1..=45 => self.fight(y[0].clone()),
+                    46..=70 => self.fight(y[1].clone()),
+                    71..=85 => self.fight(y[2].clone()),
+                    86..=95 => self.fight(y[3].clone()),
+                    _ => self.fight(y[4].clone())
                 }
             }
         }
@@ -115,6 +204,7 @@ impl Player {
 }
 
 fn main() {
+    let mut player = Player::new();
     let mut enemy1:Vec<Enemy> = vec![
         Enemy{
             Name: "Rat".to_string(),
@@ -153,15 +243,41 @@ fn main() {
         },        
     ];
     loop {
-        let mut input =String::new();
+        if player.Gold >= 200 {
+            println!("You've won");
+            break;
+        }else if player.Stamina <= 0 || player.HP <= 0 {
+            println!("You've lost");
+            break;
+        }
+        let mut input = String::new();
+        println!("(1) Move East (2) Move West (3) Move North (4) Move South (9) Exit Game");
         io::stdin().read_line(&mut input).expect("Failed to read");
         let temp = match input.trim().parse() {
-            Ok(num) => num,
+            Ok(1) => Move::East,
+            Ok(2) => Move::North,
+            Ok(3) => Move::South,
+            Ok(4) => Move::West,
+            Ok(9) => {
+                println!("Exiting game");
+                println!("{:?}", player);
+                break;
+            }
+            Ok(_) => {
+                println!("Invalid input type");
+                continue;
+            }
             Err(_) => {
                 println!("Enter an integer");
                 continue;
             }
-        }
+        };
+        input.clear();
+        temp.get_direction();
+        let x = player.Encounter();
+        player.result(x, enemy1.clone());
     }
+
+    println!("Game end");
 
 }
