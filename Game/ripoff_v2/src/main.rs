@@ -1,4 +1,3 @@
-use core::num;
 use rand::Rng;
 use std::io;
 #[derive(Debug, Clone)]
@@ -156,6 +155,7 @@ impl Player {
             _ => Encounter::Enemy,
         }
     }
+
     fn result(&mut self, x: Encounter, y: Vec<Enemy>) {
         match x {
             Encounter::Bush => {
