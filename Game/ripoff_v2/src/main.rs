@@ -50,10 +50,10 @@ impl Move {
 impl Player {
     fn new() -> Player{
         Player{
-            HP: 1000,
+            HP: 100,
             Stamina: 60,
-            Power: 100,
-            Gold: 199
+            Power: 10,
+            Gold: 0
         }
     }
     fn fight(&mut self, mut x: Enemy){
