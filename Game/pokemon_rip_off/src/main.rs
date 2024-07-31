@@ -1,54 +1,52 @@
 use rand::Rng;
 use std::io;
 
-const ENEMY1:[enemy;5] = [
-    enemy{
+const ENEMY1: [enemy; 5] = [
+    enemy {
         name: "Rat",
         HP: 10,
         Stamina: 20,
         Power: 2,
-        ID: 0
+        ID: 0,
     },
-    enemy{
+    enemy {
         name: "Wolf",
         HP: 20,
         Stamina: 20,
         Power: 10,
-        ID: 1
-
+        ID: 1,
     },
-    enemy{
+    enemy {
         name: "Boar",
         HP: 30,
         Stamina: 40,
         Power: 20,
-        ID: 2
+        ID: 2,
     },
-    enemy{
+    enemy {
         name: "Tiger",
         HP: 40,
         Stamina: 50,
         Power: 30,
-        ID: 3
+        ID: 3,
     },
-    enemy{
+    enemy {
         name: "Dragon",
         HP: 60,
         Stamina: 60,
         Power: 40,
-        ID: 4
-    }, 
-    ];       
-
+        ID: 4,
+    },
+];
 
 enum Move {
     North,
     East,
     South,
-    West   
+    West,
 }
 #[derive(Debug)]
-struct Player{
+struct Player {
     HP: i32,
     Stamina: i32,
     Power: i32,
@@ -56,13 +54,11 @@ struct Player{
 }
 #[derive(Debug, Clone)]
 struct enemy<'a> {
-    
     name: &'a str,
     HP: i32,
     Stamina: i32,
     Power: i32,
-    ID: i32
-
+    ID: i32,
 }
 
 enum Encounter {
@@ -72,20 +68,20 @@ enum Encounter {
     Water,
     Herb,
     Iron_ore,
-    Enemy
+    Enemy,
 }
-impl Move{
-    fn change(&self){
+impl Move {
+    fn change(&self) {
         match self {
             Move::East => println!("You have moved east"),
             Move::West => println!("You have moved west"),
             Move::North => println!("You have moved North"),
-            Move::South => println!("You have moved South")
+            Move::South => println!("You have moved South"),
         }
     }
 }
 impl Player {
-    fn fight_enemy(&mut self, mut x:enemy, ){
+    fn fight_enemy(&mut self, mut x: enemy) {
         let mut input = String::new();
         loop {
             println!("{:?}", self);
@@ -125,10 +121,8 @@ impl Player {
             println!("(1)Fight or (2)Flee");
             io::stdin().read_line(&mut input).expect("Failed to read");
             let outcome = match input.trim().parse() {
-                Ok(num) => {
-                    num
-                },
-                Err(_) =>{
+                Ok(num) => num,
+                Err(_) => {
                     println!("Wrong input type");
                     continue;
                 }
@@ -140,34 +134,30 @@ impl Player {
                     let enemy = rand::thread_rng().gen_range(0..100);
                     if rand > x.Stamina {
                         println!("Player hit");
-                        if enemy > self.Stamina{
+                        if enemy > self.Stamina {
                             println!("Enemy hit");
                             x.HP -= self.Power;
                             self.HP -= x.Power;
-                        }
-                        else{
+                        } else {
                             println!("Enemy Missed");
                             x.HP -= self.Power;
                         }
-                    }
-                    else {
+                    } else {
                         println!("Player Missed");
-                        if enemy > self.Stamina{
+                        if enemy > self.Stamina {
                             println!("Enemy hit");
                             self.HP -= x.Power;
-                        }
-                        else{
+                        } else {
                             println!("Enemy Missed");
                         }
                     }
-
                 }
 
                 2 => {
                     println!("Run you coward");
                     break;
                 }
-                
+
                 _ => {
                     println!("Invalid number");
                     continue;
@@ -175,18 +165,17 @@ impl Player {
             }
         }
     }
-    fn new() -> Self{
+    fn new() -> Self {
         Player {
             HP: 100,
             Stamina: 60,
             Gold: 0,
             Power: 10,
         }
-
     }
-    fn get_encounter(&mut self) -> Encounter{
+    fn get_encounter(&mut self) -> Encounter {
         let mut rng = rand::thread_rng();
-        let n:i32 = rng.gen_range(0..100);
+        let n: i32 = rng.gen_range(0..100);
         let result = match n {
             0..=16 => Encounter::Nothing,
             17..=26 => Encounter::Meat,
@@ -194,23 +183,18 @@ impl Player {
             40..=54 => Encounter::Water,
             55..=69 => Encounter::Herb,
             70..=74 => Encounter::Iron_ore,
-            _ => Encounter::Enemy
-
+            _ => Encounter::Enemy,
         };
         result
-        
-
-
     }
 
-    fn encounter(&mut self, data:Encounter){
+    fn encounter(&mut self, data: Encounter) {
         match data {
             Encounter::Bush => {
                 println!("Found Bush Stamina -2");
                 self.Stamina -= 2;
-                
             }
-            Encounter::Herb =>{
+            Encounter::Herb => {
                 println!("Found Herb Power + 1");
                 self.Power += 1;
                 self.Stamina -= 1;
@@ -228,17 +212,15 @@ impl Player {
                 println!("Found Meat HP + 10");
                 self.HP += 10;
                 self.Stamina -= 1;
-
             }
             Encounter::Nothing => {
                 println!("Found Nothing");
-                self.Stamina -=1
-
+                self.Stamina -= 1
             }
             Encounter::Enemy => {
                 self.Stamina -= 1;
                 let mut rng = rand::thread_rng();
-                let n:i32 = rng.gen_range(0..100);
+                let n: i32 = rng.gen_range(0..100);
                 match n {
                     0..=44 => self.fight_enemy(ENEMY1[0].clone()),
                     45..=69 => self.fight_enemy(ENEMY1[1].clone()),
@@ -246,15 +228,13 @@ impl Player {
                     85..=94 => self.fight_enemy(ENEMY1[3].clone()),
                     95..=100 => self.fight_enemy(ENEMY1[4].clone()),
                     _ => println!("Hi"),
-                
-                
+                }
             }
         }
     }
 }
-}
 fn main() {
-    let mut player = Player::new();       
+    let mut player = Player::new();
     loop {
         if player.Stamina <= 0 || player.Gold >= 200 || player.HP <= 0 {
             break;
@@ -262,7 +242,7 @@ fn main() {
         let mut input = String::new();
         println!("(1) Move East (2) Move West (3) Move North (4) Move South (9) Exit Game");
         io::stdin().read_line(&mut input).expect("failed to read");
-        let value = match input.trim().parse(){
+        let value = match input.trim().parse() {
             Ok(1) => Move::East,
             Ok(2) => Move::West,
             Ok(3) => Move::North,
@@ -284,9 +264,7 @@ fn main() {
         value.change();
         let x = player.get_encounter();
         player.encounter(x);
-
     }
-    println!("{:?}" ,player);
+    println!("{:?}", player);
     println!("Game finished");
-
 }

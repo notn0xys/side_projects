@@ -1,18 +1,18 @@
 use core::num;
-use std::io;
 use rand::Rng;
-#[derive(Debug,Clone)]
+use std::io;
+#[derive(Debug, Clone)]
 
 struct Enemy {
     Name: String,
     HP: i32,
     Stamina: i32,
     Power: i32,
-    ID: i32
+    ID: i32,
 }
 
 #[derive(Debug)]
-struct  Player {
+struct Player {
     HP: i32,
     Stamina: i32,
     Power: i32,
@@ -23,7 +23,7 @@ enum Move {
     North,
     East,
     South,
-    West
+    West,
 }
 
 enum Encounter {
@@ -33,30 +33,30 @@ enum Encounter {
     Water,
     Herb,
     Iron_ore,
-    Enemy
+    Enemy,
 }
 
 impl Move {
-    fn get_direction(&self){
+    fn get_direction(&self) {
         match self {
             Move::East => println!("You've moved east"),
             Move::North => println!("You've moved north"),
             Move::South => println!("You've moved south"),
-            Move::West => println!("You've moved west")
+            Move::West => println!("You've moved west"),
         }
     }
 }
 
 impl Player {
-    fn new() -> Player{
-        Player{
+    fn new() -> Player {
+        Player {
             HP: 100,
             Stamina: 60,
             Power: 10,
-            Gold: 0
+            Gold: 0,
         }
     }
-    fn fight(&mut self, mut x: Enemy){
+    fn fight(&mut self, mut x: Enemy) {
         loop {
             println!("{:?}", self);
             println!("{:?}", x);
@@ -64,52 +64,50 @@ impl Player {
                 println!("You've died");
                 self.HP = 0;
                 break;
-            }
-            else if x.HP <= 0 {
-               match x.ID {
-                0 => {
-                    println!("You've killed Rat");
-                    self.Gold += 5;
-                    break;
+            } else if x.HP <= 0 {
+                match x.ID {
+                    0 => {
+                        println!("You've killed Rat");
+                        self.Gold += 5;
+                        break;
+                    }
+                    1 => {
+                        println!("You've killed wolf");
+                        self.Gold += 10;
+                        break;
+                    }
+                    2 => {
+                        println!("You've killed Boar");
+                        self.Gold += 15;
+                        break;
+                    }
+                    3 => {
+                        println!("You've killed tiger");
+                        self.Gold += 25;
+                        break;
+                    }
+                    4 => {
+                        println!("You've killed Dragon");
+                        self.Gold += 50;
+                        break;
+                    }
+                    _ => {
+                        println!("You've killed secrect last boss");
+                        self.Gold += 99999999;
+                        break;
+                    }
                 }
-                1 => {
-                    println!("You've killed wolf");
-                    self.Gold += 10;
-                    break;
-                }
-                2 => {
-                    println!("You've killed Boar");
-                    self.Gold += 15;
-                    break;
-                }
-                3 => {
-                    println!("You've killed tiger");
-                    self.Gold += 25;
-                    break;
-                }
-                4 => {
-                    println!("You've killed Dragon");
-                    self.Gold += 50;
-                    break;
-                }
-                _ => {
-                    println!("You've killed secrect last boss");
-                    self.Gold += 99999999;
-                    break;
-                }
-               }
-                
             }
             let mut input = String::new();
             println!("(1)Fight or (2) Flight");
             io::stdin().read_line(&mut input).expect("Failed to read");
-            let temp:i32 = match input.trim().parse(){
+            let temp: i32 = match input.trim().parse() {
                 Ok(1) => 1,
                 Ok(2) => 2,
                 Ok(_) => {
                     println!("Wrong option");
                     continue;
-                },
+                }
                 Err(_) => {
                     println!("wrong input type");
                     continue;
@@ -119,40 +117,34 @@ impl Player {
                 1 => {
                     let playerrng = rand::thread_rng().gen_range(1..100);
                     let enemyrng = rand::thread_rng().gen_range(1..100);
-                    if playerrng > x.Stamina{
+                    if playerrng > x.Stamina {
                         println!("Player Hit");
-                        if enemyrng > self.Stamina{
+                        if enemyrng > self.Stamina {
                             println!("Enemy Hit");
                             x.HP -= self.Power;
                             self.HP -= x.Power;
-
-                        }
-                        else {
+                        } else {
+                            println!("Enemy missed");
                             x.HP -= self.Power;
                         }
-                    }
-                    else {
+                    } else {
                         println!("Player Missed");
                         if enemyrng > self.Stamina {
                             println!("Enemy Hit");
                             self.HP -= x.Power
-                        }
-                        else {
+                        } else {
                             println!("Enemy Missed");
                         }
                     }
-
                 }
                 _ => {
                     println!("Flee you coward");
                     break;
                 }
             }
-            
         }
-
     }
-    fn Encounter(&self) -> Encounter{
+    fn Encounter(&self) -> Encounter {
         let n = rand::thread_rng().gen_range(1..100);
         match n {
             1..=17 => Encounter::Nothing,
@@ -161,20 +153,19 @@ impl Player {
             41..=55 => Encounter::Water,
             56..=70 => Encounter::Herb,
             71..=75 => Encounter::Iron_ore,
-            _  => Encounter::Enemy
+            _ => Encounter::Enemy,
         }
     }
-
-    fn result(&mut self, x:Encounter, y:Vec<Enemy>){
+    fn result(&mut self, x: Encounter, y: Vec<Enemy>) {
         match x {
             Encounter::Bush => {
                 println!("Found Bush Stamina -1");
-                self.Stamina -=2;
+                self.Stamina -= 2;
             }
             Encounter::Iron_ore => {
                 println!("Found IronOre Power + 10");
-                self.Stamina -=1;
-                self.Power +=10;
+                self.Stamina -= 1;
+                self.Power += 10;
             }
             Encounter::Meat => {
                 println!("Found meat HP + 10");
@@ -202,7 +193,7 @@ impl Player {
                     46..=70 => self.fight(y[1].clone()),
                     71..=85 => self.fight(y[2].clone()),
                     86..=95 => self.fight(y[3].clone()),
-                    _ => self.fight(y[4].clone())
+                    _ => self.fight(y[4].clone()),
                 }
             }
         }
@@ -211,49 +202,49 @@ impl Player {
 
 fn main() {
     let mut player = Player::new();
-    let mut enemy1:Vec<Enemy> = vec![
-        Enemy{
+    let mut enemy1: Vec<Enemy> = vec![
+        Enemy {
             Name: "Rat".to_string(),
             HP: 10,
             Stamina: 20,
             Power: 2,
-            ID: 0
+            ID: 0,
         },
-        Enemy{
+        Enemy {
             Name: "Wolf".to_string(),
             HP: 20,
             Stamina: 20,
             Power: 10,
-            ID: 1
+            ID: 1,
         },
-        Enemy{
+        Enemy {
             Name: "Boar".to_string(),
             HP: 30,
             Stamina: 40,
             Power: 20,
-            ID: 2
+            ID: 2,
         },
-        Enemy{
+        Enemy {
             Name: "Tiger".to_string(),
             HP: 40,
             Stamina: 50,
             Power: 30,
-            ID:3
+            ID: 3,
         },
-        Enemy{
+        Enemy {
             Name: "Dragon".to_string(),
             HP: 60,
             Stamina: 60,
             Power: 40,
-            ID: 4
+            ID: 4,
         },
-        Enemy{
+        Enemy {
             Name: "Trex".to_string(),
             HP: 100,
             Stamina: 70,
             Power: 50,
-            ID:5
-        }
+            ID: 5,
+        },
     ];
     loop {
         if player.Gold >= 200 {
@@ -264,15 +255,14 @@ fn main() {
             match input.trim().parse() {
                 Ok(1) => {
                     player.fight(enemy1[5].clone());
-                    
-                },
+                }
                 Ok(2) => {
                     println!("Thanks for playing");
-                },
+                }
                 Ok(_) => {
                     println!("Wrong number");
                     continue;
-                },
+                }
                 Err(_) => {
                     println!("wrong inout type");
                     continue;
@@ -280,7 +270,7 @@ fn main() {
             };
             println!("You've won");
             break;
-        }else if player.Stamina <= 0 || player.HP <= 0 {
+        } else if player.Stamina <= 0 || player.HP <= 0 {
             println!("You've lost");
             break;
         }
@@ -289,9 +279,9 @@ fn main() {
         io::stdin().read_line(&mut input).expect("Failed to read");
         let temp = match input.trim().parse() {
             Ok(1) => Move::East,
-            Ok(2) => Move::North,
-            Ok(3) => Move::South,
-            Ok(4) => Move::West,
+            Ok(2) => Move::West,
+            Ok(3) => Move::North,
+            Ok(4) => Move::South,
             Ok(9) => {
                 println!("Exiting game");
                 break;
@@ -310,7 +300,6 @@ fn main() {
         let x = player.Encounter();
         player.result(x, enemy1.clone());
     }
-    println!("{:?}",player);
+    println!("{:?}", player);
     println!("Game end");
-
 }
