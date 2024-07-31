@@ -294,11 +294,10 @@ fn main() {
             Ok(4) => Move::West,
             Ok(9) => {
                 println!("Exiting game");
-                println!("{:?}", player);
                 break;
             }
             Ok(_) => {
-                println!("Invalid input type");
+                println!("Invalid Number");
                 continue;
             }
             Err(_) => {
