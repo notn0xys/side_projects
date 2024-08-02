@@ -1,6 +1,6 @@
-name = input("Enter Employee's name")
-no_of_hours = int(input("Enter Employee's name"))
-pay_rate = float(input("Enter Employee's name"))
+name = input("Enter Employee's name ")
+no_of_hours = float(input("Enter The amount of hours worked"))
+pay_rate = float(input("Enter Employee's Payrate"))
 tax_withholding_rate = float(input("Enter Employee's name"))
 state_tax_withholding = float(input("Enter Employee's name"))
 
@@ -11,9 +11,9 @@ total_taxxed = fed_taxed + state_taxed
 net_pay = grosspay - total_taxxed
 
 print("Employee's Name: " + name)
-print("Hours worked: ")
+print("Hours worked: " + no_of_hours)
 print("Pay Rate: " + pay_rate)
-print("Gross Pay: {grosspay}")
+print(f"Gross Pay: {grosspay:.2f}" )
 print("Deductions:")
 print("  ")
 
