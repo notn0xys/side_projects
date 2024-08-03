@@ -2,8 +2,41 @@ from turtle import *
 while True:
     r = input("Please enter radius: ")
     if r.isdigit():
+        r = int(r)
         break
     print("Please enter an integer: ")
-
-
-
+small_gap = 0.2 * r
+penup()
+backward(r)
+pendown()
+#draw first circle
+circle(r)
+penup()
+#goes to the second circle position and records it for later
+forward((r*2 + small_gap))
+x = pos()
+pendown()
+circle(r)
+penup()
+forward((r*2 + small_gap))
+pendown()
+circle(r)
+penup()
+goto(-r, (2*r)/3)
+right(90)
+forward(r*2)
+left(90)
+forward((r*2 + small_gap)/2)
+pendown()
+circle(r)
+penup()
+goto(x)
+forward((r*2 + small_gap)/2)
+left(90)
+forward((2*r)/3)
+left(180)
+forward(r*2)
+left(90)
+pendown()
+circle(r)
+done()
