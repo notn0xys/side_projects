@@ -51,7 +51,7 @@ impl Player {
     fn new() -> Player {
         Player {
             HP: 100,
-            Stamina: 1,
+            Stamina: 100,
             Power: 10,
             Gold: 0,
             max_hp: 100
