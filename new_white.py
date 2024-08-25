@@ -1,5 +1,5 @@
 i = 0
-height = 5
+height = 8
 
 while i < height:
     print(" " * (i), end="")

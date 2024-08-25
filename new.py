@@ -1,4 +1,4 @@
-height = int(input("Enter your height: "));
+height = 8;
 for i in range(1,height + 1):
     print(" " * (i - 1), end="")
     if i % 2 ==0:
